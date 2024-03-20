@@ -1,37 +1,30 @@
 package Controllers;
 
-import Services.ArchiveService;
+import DTO.ArchivoDTO;
+import Services.ArchivoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-@RestController
-@RequestMapping("/archivo")
+import java.io.IOException;
 
+@RestController
 public class ArchivoController {
 
-    private final ArchiveService archiveService;
-
+    private final ArchivoService archivoService;
     @Autowired
-    public ArchivoController(ArchiveService archiveService) {
-        this.archiveService = archiveService;
+    public ArchivoController(ArchivoService archivoService) {
+        this.archivoService = archivoService;
     }
 
-    @PostMapping("/cargar") // metodo para cargar el archivo
-    public String cargarArchivo(@RequestParam("archivo")MultipartFile archivo) {
+    @GetMapping() // metodo para cargar el archivo
+    public String cargarArchivo(@RequestBody ArchivoDTO archivoDTO) throws IOException {
         // metodo para cargar el archivo
-        archiveService.cargarArchivo(archivo);
-        return "Archivo cargado exitosamente";
-    }
 
-    @RequestMapping("/leer") // metodo para leer el archivo
-    public String leerArchivo(MultipartFile archivo) {
-        return archiveService.leerArchivo();
+        System.out.println("Archivo cargado exitosamente");
+        archivoService.procesarArchivo(archivoDTO);
+        return null;
     }
-
 
 
 }
